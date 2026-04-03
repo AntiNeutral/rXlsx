@@ -1,19 +1,17 @@
 package rXlsx;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class dataframe {
-    List<String> columns;
-    List<String> column_type;
+    public List<String> columns;
+    public List<String> column_type;
     public List<series> data;
     public int[] dim = {0, 0};
 
@@ -95,8 +93,8 @@ public class dataframe {
         } else return c.getCellType() == CellType.STRING && c.getStringCellValue().trim().isEmpty();
     }
 
-    private Map<String, Object> getRow(Row row) {
-        Map<String, Object> row_data = new HashMap<>();
+    private LinkedHashMap<String, Object> getRow(Row row) {
+        LinkedHashMap<String, Object> row_data = new LinkedHashMap<>();
         for (int i = 0; i < this.dim[1]; i++){
             if (isNull(row.getCell(i))) {
                 row_data.put(this.columns.get(i), null);
@@ -136,12 +134,12 @@ public class dataframe {
                 }
                 int row_num = sheet.getLastRowNum();
                 for (int i = 1; i <= row_num; i++) {
-                    Map<String, Object> row_data = this.getRow(sheet.getRow(i));
+                    LinkedHashMap<String, Object> row_data = this.getRow(sheet.getRow(i));
                     this.append(new series(this.dim[0], row_data));
                 }
             } else if (!this.columns.isEmpty()){
                 for (Row row: sheet){
-                    Map<String, Object> row_data = this.getRow(row);
+                    LinkedHashMap<String, Object> row_data = this.getRow(row);
                     this.append(new series(this.dim[0], row_data));
                 }
             } else {
