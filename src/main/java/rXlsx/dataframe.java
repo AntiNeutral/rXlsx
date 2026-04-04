@@ -10,12 +10,12 @@ import java.time.ZoneId;
 import java.util.*;
 
 public class dataframe {
-    public List<String> columns;
-    public List<String> column_type;
-    public List<series> data;
+    public ArrayList<String> columns;
+    public ArrayList<String> column_type;
+    public ArrayList<series> data;
     public int[] dim = {0, 0};
 
-    public dataframe(List<String> column_name, List<String> column_type) {
+    public dataframe(ArrayList<String> column_name, ArrayList<String> column_type) {
         this.columns = column_name;
         this.column_type = column_type;
         this.dim[1] = column_name.size();
@@ -77,7 +77,7 @@ public class dataframe {
      *
      * @param s the list of series to be appended to the dataframe
      */
-    public void append(List<series> s) {
+    public void append(ArrayList<series> s) {
         this.data.addAll(s);
         this.dim[0] += s.size();
     }
